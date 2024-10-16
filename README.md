@@ -22,11 +22,29 @@ Ovaj projekt je razvijen kao dio kolegija **Razvoj mobilnih aplikacija** na Faku
    ```bash
    git clone https://github.com/danielvasic/MathApp.git
    ```
+
+2. Navigirajte u direktorij projekta:
+
+   ```bash
+   cd MathApp
+   ```
+3. Instalirajte potrebne pakete:
+
+   ```bash
+   npm install
+   ```
+
+4. Pokrenite aplikaciju:
+
+   ```bash
+   npx expo start
+   ```
+
 ## Buduće funkcionalnosti
 
-Dodavanje novih matematičkih operacija i složenijih zadataka.
-Podrška za više jezika.
-Rang liste za praćenje najboljih korisnika.
+- Dodavanje novih matematičkih operacija i složenijih zadataka.
+- Podrška za više jezika.
+- Rang liste za praćenje najboljih korisnika.
 
 ## Autori
 
