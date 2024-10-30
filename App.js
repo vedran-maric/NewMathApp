@@ -3,6 +3,9 @@ import {View, TextInput, Button, Text} from "react-native";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth, firestore} from "./firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import LoginInput from "./LoginInput"
+import LoginButton from "./LoginButton";
+import ErrorMessage from "./ErrorMessage";
 
 export default function App() {
   const [email, setEmail] = useState("");
@@ -64,20 +67,21 @@ export default function App() {
   }
   return (
     <View>
-      <TextInput
+      <LoginInput
         placeholder="Unesite Vašu email adresu"
         value={email}
+        secureTextEntry={false}
         onChangeText={setEmail} />{" "}
       
-      <TextInput
+      <LoginInput
         placeholder="Unesite vašu lozinku"
-        secureTextEntry
+        secureTextEntry={true}
         value={passw}
         onChangeText={setPassw} />{" "}
       
-      {errorMsg ? <Text>{errorMsg}</Text> : null}{" "}
+      <ErrorMessage error={errorMsg} />{" "}
 
-      <Button title="Prijava" onPress={handleLogin} />{" "}
+      <LoginButton title="Prijava" onPress={handleLogin} />{" "}
     </View>
   );
 };
