@@ -1,46 +1,39 @@
-import React, {useState} from "react";
-import {View, TextInput, Button, Text} from "react-native";
-import {signInWithEmailAndPassword} from "firebase/auth";
-import {auth} from "./firebaseConfig";
+import React, { useState } from "react";
+import { auth, firestore } from "./firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import LoggedInView from "./components/LoggedInView";
+import LoggedOutView from "./components/LoggedOutView";
 
 export default function App() {
   const [email, setEmail] = useState("");
   const [passw, setPassw] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false); 
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, passw).then(
-      () => {
+    signInWithEmailAndPassword(auth, email, passw)
+      .then(() => {
         setLoggedIn(true);
-      }
-    ).catch((error) => setErrorMsg(error.message));
+      })
+      .catch((error) => setErrorMsg(error.message));
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
   };
 
   if (loggedIn) {
-    return (
-      <View>
-        <Text>Dobrodošli na sustav</Text>
-        <Button title="Odjavi se"></Button>
-      </View>
-    );
+    return <LoggedInView onLogout={handleLogout} />;
   }
-  return (
-    <View>
-      <TextInput
-        placeholder="Unesite Vašu email adresu"
-        value={email}
-        onChangeText={setEmail} />{" "}
-      
-      <TextInput
-        placeholder="Unesite vašu lozinku"
-        secureTextEntry
-        value={passw}
-        onChangeText={setPassw} />{" "}
-      
-      {errorMsg ? <Text>{errorMsg}</Text> : null}{" "}
 
-      <Button title="Prijava" onPress={handleLogin} />{" "}
-    </View>
+  return (
+    <LoggedOutView
+      email={email}
+      passw={passw}
+      setEmail={setEmail}
+      setPassw={setPassw}
+      errorMsg={errorMsg}
+      handleLogin={handleLogin}
+    />
   );
-};
+}
