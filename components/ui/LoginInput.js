@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         marginBottom: 12,
-        paddingLeft: 8
+        paddingLeft: 8,
+        width: "80%",
     }
 });
