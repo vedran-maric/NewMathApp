@@ -43,7 +43,7 @@ export default function LeaderboardTab() {
         <Text style={styles.text}>Učitavanje leaderboard-a...</Text>
       </View>
     );
-  }
+  }{/* neki komentar test */}
 
   return (
     <View style={styles.container}>
