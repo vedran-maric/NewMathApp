@@ -1,52 +1,10 @@
-# MathApp
+Dokazi za funkcionalnost zadaće:
 
-Ovaj projekt je razvijen kao dio kolegija **Razvoj mobilnih aplikacija** na Fakultetu strojarstva, računarstva i elektrotehnike. MathApp je mobilna aplikacija koja omogućava korisnicima vježbanje matematičkih operacija i poboljšanje matematičkih vještina kroz interaktivne zadatke i kvizove.
+Prikaz leaderboarda igrača
+![Dokaz_leaderboard](https://github.com/user-attachments/assets/c185ff5a-6f6f-450a-a5ca-1f8fff6a7704)
 
-## Tehnologije korištene
+prikaz bodova trenutnog korisnika na tabu Profil
+![dokaz_profil](https://github.com/user-attachments/assets/6f95bf43-cc19-45f3-856b-9a3bd4be422d)
 
-- **React Native**: Razvoj mobilnih aplikacija za iOS i Android.
-- **Expo**: Okruženje za jednostavno testiranje i pokretanje React Native aplikacija.
-- **JavaScript (ES6)**: Logika aplikacije i upravljanje korisničkim sučeljem.
-- **Firebase**: Autentifikacija korisnika i pohrana rezultata korisnika u realnom vremenu.
-
-## Značajke aplikacije
-
-- **Prijava korisnika**: Korisnici se mogu prijaviti putem Firebase autentifikacije.
-- **Interaktivni zadaci**: Aplikacija nudi razne matematičke zadatke (zbrajanje, oduzimanje, množenje, dijeljenje).
-- **Pohrana rezultata**: Rezultati korisnika pohranjuju se u bazu podataka i mogu se pregledati kroz aplikaciju.
-- **Praćenje napretka**: Korisnici mogu pratiti svoj napredak kroz statistike i povijest rezultata.
-
-## Postavljanje projekta
-
-1. Klonirajte repozitorij:
-   ```bash
-   git clone https://github.com/danielvasic/MathApp.git
-   ```
-
-2. Navigirajte u direktorij projekta:
-
-   ```bash
-   cd MathApp
-   ```
-3. Instalirajte potrebne pakete:
-
-   ```bash
-   npm install
-   ```
-
-4. Pokrenite aplikaciju:
-
-   ```bash
-   npx expo start
-   ```
-
-## Buduće funkcionalnosti
-
-- Dodavanje novih matematičkih operacija i složenijih zadataka.
-- Podrška za više jezika.
-- Rang liste za praćenje najboljih korisnika.
-
-## Autori
-
-    doc. dr. sc. Daniel Vasić – daniel.vasic@fpmoz.sum.ba
-
+prikaz bodova trenutnog korisnika na tabu gdje se sama igra i nalazi
+![Dokaz_bodovi](https://github.com/user-attachments/assets/69fb2f29-b2e6-4e2f-bb18-39d867315de7)
