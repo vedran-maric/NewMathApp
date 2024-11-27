@@ -12,7 +12,8 @@ export default function LoggedInView() {
   const [profile, setProfile] = useState({
     name: '',
     age: '',
-    bio: ''
+    bio: '',
+    score: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -61,6 +62,9 @@ export default function LoggedInView() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Dobrodošli na sustav</Text>
+
+      <Text style={styles.text}>Vaši bodovi: {profile.score}</Text> {/* Prikaz bodova */}
+
 
       <LoginButton title="Odjavi se" onPress={logout} />
 

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { auth, firestore } from "../firebaseConfig";
+import { AuthContext } from "../AuthContext";
 
 const GameOneScreen = () => {
+
     const [numbers, setNumbers] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [sum, setSum] = useState(0);
@@ -10,6 +14,41 @@ const GameOneScreen = () => {
     const [showInput, setShowInput] = useState(false);
     const [message, setMessage] = useState('');
     const [gameStarted, setGameStarted] = useState(false);
+
+{/* kod za učitavanje user poddataka */}
+    const [profile, setProfile] = useState({
+        name: '',
+        age: '',
+        bio: '',
+        score: 0,
+      });
+      const [loading, setLoading] = useState(true);
+    
+      useEffect(() => {
+        const fetchProfile = async () => {
+          try {
+            const userId = auth.currentUser.uid;
+            const docRef = doc(firestore, "users", userId);
+            const docSnap = await getDoc(docRef);
+    
+            if (docSnap.exists()) {
+              setProfile(docSnap.data());
+            } else {
+              console.log("No such document!");
+            }
+          } catch (error) {
+            console.error("Error fetching profile: ", error);
+            Alert.alert("Greška", "Došlo je do greške pri učitavanju vašeg profila.");
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchProfile();
+      }, []);
+{/* kraj koda za učitavanje user poddataka */}
+
+
 
     const startGame = () => {
         setGameStarted(true);
@@ -50,17 +89,54 @@ const GameOneScreen = () => {
         setUserInput(text);
     };
 
-    const handleSubmit = () => {
-        const userSum = parseInt(userInput, 10);
-        if (userSum === sum) {
-            setMessage('Točan odgovor, bravo samo tako nastavi!');
-        } else {
-            setMessage('Netočan odgovor, pokušaj ponovo!');
+    const handleSubmit = async () => {
+        const userSum = parseInt(userInput, 10); // Pretvori unos u broj
+        const userId = auth.currentUser.uid; // Dohvati ID trenutnog korisnika
+        
+        if (isNaN(userSum)) {
+            setMessage('Molimo unesite valjani broj!');
+            return;
+        }
+    
+        try {
+            // Referenca na korisnikov dokument u Firestoreu
+            const userRef = doc(firestore, "users", userId);
+    
+            // Dohvati trenutne bodove iz baze
+            const userSnapshot = await getDoc(userRef);
+            if (!userSnapshot.exists()) {
+                setMessage('Korisnik nije pronađen u bazi!');
+                return;
+            }
+    
+            const currentScore = userSnapshot.data().score || 0; // Ako score ne postoji, postavi na 0
+    
+            // Provjeri točnost odgovora i ažuriraj bodove
+            let newScore;
+            if (userSum === sum) {
+                setMessage('Točan odgovor, bravo samo tako nastavi!');
+                newScore = currentScore + 5; // Dodaj 5 bodova
+            } else {
+                setMessage('Netočan odgovor, pokušaj ponovo!');
+                newScore = currentScore - 7; // Oduzmi 7 bodova
+            }
+    
+            // Ažuriraj bodove u Firestoreu
+            await setDoc(userRef, { score: newScore }, { merge: true });
+    
+            // Ažuriraj bodove u stanju
+            setProfile((prevProfile) => ({ ...prevProfile, score: newScore }));
+        } catch (error) {
+            console.error('Pogreška pri ažuriranju bodova:', error);
+            setMessage('Došlo je do greške pri ažuriranju vaših bodova.');
         }
     };
+    
+    
 
     return (
         <View style={styles.container}>
+            <Text style={styles.text}>Vaši bodovi: {profile.score}</Text> {/* Prikaz bodova */}
             {!gameStarted ? (
                 <TouchableOpacity onPress={startGame} style={styles.startButton}>
                     <Text style={styles.startText}>Započni igricu</Text>
@@ -70,6 +146,8 @@ const GameOneScreen = () => {
             ) : showInput ? (
                 <View>
                     <View style={styles.inputContainer}>
+
+
                         <TextInput
                             placeholder='Unesite zbroj brojeva'
                             style={styles.input}
@@ -143,6 +221,11 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
     },
+    text: {
+        fontSize: 24,
+        marginBottom: 20,
+        textAlign: 'center',
+      },
 });
 
 export default GameOneScreen;
